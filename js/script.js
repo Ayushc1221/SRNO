@@ -3,13 +3,15 @@ const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
 hamburger.addEventListener('click', () => {
-    navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
 });
 
 // Close menu when a link is clicked
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-        navMenu.style.display = 'none';
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
     });
 });
 
@@ -79,7 +81,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Form Submission
 const contactForm = document.querySelector('.contact-form form');
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
         alert('Thank you for your message! We will get back to you soon.');
         this.reset();
@@ -102,7 +104,7 @@ const observerOptions = {
     rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver(function(entries) {
+const observer = new IntersectionObserver(function (entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
