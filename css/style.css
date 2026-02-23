@@ -20,6 +20,12 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+html,
+body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     line-height: 1.68;
@@ -28,6 +34,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 0.3px;
+    width: 100%;
 }
 
 html {
@@ -2146,6 +2153,30 @@ html {
     font-weight: 600;
 }
 
+/* Overlay for Mobile Menu */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-menu {
@@ -2153,15 +2184,17 @@ html {
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: -100%;
-        /* Start off-screen */
-        width: 250px;
+        right: 0;
+        transform: translateX(100%);
+        /* Start off-screen natively */
+        width: 80%;
+        max-width: 300px;
         height: 100vh;
         background: #ffffff;
-        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-        padding: 80px 0 20px;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+        padding: 90px 0 30px;
         /* Top padding for hamburger clearance */
-        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.4s cubic-bezier(0.77, 0.2, 0.05, 1.0);
         z-index: 1100;
         /* Higher than sticky header */
         gap: 0;
@@ -2169,7 +2202,7 @@ html {
     }
 
     .nav-menu.active {
-        right: 0;
+        transform: translateX(0);
     }
 
     .nav-menu li {
@@ -2185,14 +2218,16 @@ html {
     .nav-link {
         display: block;
         width: 100%;
-        padding: 15px 20px;
+        padding: 16px 25px;
         font-size: 16px;
         color: var(--dark-text);
         font-weight: 500;
+        transition: background 0.3s, color 0.3s;
     }
 
-    .nav-link:hover {
-        background-color: #f8f9fa;
+    .nav-link:hover,
+    .nav-link.active {
+        background-color: rgba(26, 84, 144, 0.05);
         color: var(--primary-color);
     }
 
@@ -2200,6 +2235,20 @@ html {
         display: flex;
         z-index: 1200;
         position: relative;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .hamburger span {
+        width: 100%;
+        height: 3px;
+        background: var(--primary-color);
+        margin: 0;
+        border-radius: 3px;
+        transition: all 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
     }
 
     /* Reduce container padding for mobile */
@@ -2209,16 +2258,17 @@ html {
     }
 
     .hamburger.active span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+        transform: translateY(8.5px) rotate(45deg);
         background-color: var(--primary-color);
     }
 
     .hamburger.active span:nth-child(2) {
         opacity: 0;
+        transform: scale(0.2);
     }
 
     .hamburger.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(5px, -5px);
+        transform: translateY(-8.5px) rotate(-45deg);
         background-color: var(--primary-color);
     }
 
@@ -2644,7 +2694,70 @@ html {
 
 /* About Page Styles */
 .about-main {
-    padding: 80px 0;
+    padding: 80px 0 40px;
+    /* Reduced bottom padding */
+}
+
+/* New responsive inner section styles for About page */
+.about-main h2 {
+    font-size: 36px;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    position: relative;
+    letter-spacing: -0.5px;
+}
+
+.about-main h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent-color);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.about-main>.container>div>p,
+.about-main>.container>p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    max-width: 900px;
+    margin-inline: auto;
+}
+
+.overview-section,
+.strengths-section,
+.presence-section,
+.mission-vision-section {
+    margin-top: 80px;
+}
+
+.mission-vision-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.mission-card,
+.vision-card {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    border-top: 4px solid var(--accent-color);
+    height: 100%;
+}
+
+.card-icon {
+    font-size: 40px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
 .stats-grid {
@@ -2674,7 +2787,8 @@ html {
 }
 
 .presence-map {
-    margin: 40px 0;
+    margin: 40px 0 10px;
+    /* Reduced bottom margin */
 }
 
 .placeholder {
@@ -3428,6 +3542,14 @@ html {
 
     .page-header p {
         font-size: 16px;
+    }
+
+    .about-main {
+        padding: 40px 0 10px;
+    }
+
+    .presence-map {
+        margin: 20px 0 0;
     }
 
     .contact-wrapper {

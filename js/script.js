@@ -1,49 +1,69 @@
 // Mobile Menu Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
+const body = document.body;
 
-hamburger.addEventListener('click', () => {
+// Create overlay
+const overlay = document.createElement('div');
+overlay.className = 'nav-overlay';
+const navbar = document.querySelector('.navbar');
+if (navbar) {
+    navbar.appendChild(overlay);
+} else {
+    document.body.appendChild(overlay);
+}
+
+function toggleMenu() {
     hamburger.classList.toggle('active');
     navMenu.classList.toggle('active');
-});
+    overlay.classList.toggle('active');
+    body.classList.toggle('no-scroll');
+}
+
+hamburger.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
 
 // Close menu when a link is clicked
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        body.classList.remove('no-scroll');
     });
 });
 
 // Initialize Swiper for Clients Logo Slider
-const clientSwiper = new Swiper('.clientsSwiper', {
-    loop: true,
-    autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-    slidesPerView: 1,
-    spaceBetween: 20,
-    breakpoints: {
-        480: {
-            slidesPerView: 2,
+if (typeof Swiper !== 'undefined' && document.querySelector('.clientsSwiper')) {
+    const clientSwiper = new Swiper('.clientsSwiper', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
         },
-        768: {
-            slidesPerView: 3,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
         },
-        1024: {
-            slidesPerView: 4,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
         },
-    },
-});
+        slidesPerView: 1,
+        spaceBetween: 20,
+        breakpoints: {
+            480: {
+                slidesPerView: 2,
+            },
+            768: {
+                slidesPerView: 3,
+            },
+            1024: {
+                slidesPerView: 4,
+            },
+        },
+    });
+}
 
 // Tab Functionality for Projects
 const tabButtons = document.querySelectorAll('.tab-button');
