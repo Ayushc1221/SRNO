@@ -2273,8 +2273,11 @@ body.no-scroll {
     }
 
     .hero {
-        height: 500px;
-        margin-bottom: 60px;
+        height: auto;
+        min-height: 85vh;
+        padding-top: 90px;
+        padding-bottom: 50px;
+        margin-bottom: 50px;
     }
 
     .hero-title {
@@ -2436,8 +2439,16 @@ body.no-scroll {
 
 @media (max-width: 480px) {
     .hero {
-        height: 380px;
-        margin-bottom: 60px;
+        height: auto;
+        min-height: 100vh;
+        align-items: flex-start;
+        padding-top: 50px;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+    .hero-content {
+        padding-top: 0;
     }
 
     .container {
@@ -2445,22 +2456,23 @@ body.no-scroll {
     }
 
     .hero-title {
-        font-size: 28px;
+        font-size: 24px;
+        line-height: 1.2;
     }
 
     .hero-subtitle {
-        font-size: 15px;
-        margin-bottom: 20px;
+        font-size: 13px;
+        margin-bottom: 12px;
     }
 
     .cta-button {
-        padding: 12px 28px;
+        padding: 10px 22px;
         font-size: 14px;
     }
 
     .hero-stats {
-        gap: 12px;
-        margin: 25px 0 25px;
+        gap: 8px;
+        margin: 12px 0;
     }
 
     .stat-badge {
